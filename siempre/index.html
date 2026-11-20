@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gracias por todo, apá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=IBM+Plex+Mono:wght@300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f3ee;
+    --card:#fbfaf7;
+    --ink:#1c1e22;
+    --soft:#6b6f76;
+    --line:#e2ded5;
+    --accent:#2f6b66;
+    --accent-2:#c98a3c;
+    --led:#e8a33a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;
+    background-image:radial-gradient(var(--line) 1px,transparent 1px);
+    background-size:22px 22px;opacity:.7;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .wrap{max-width:780px;margin:0 auto;padding:0 28px;position:relative}
+  section.wrap{padding:110px 28px}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+  .traces{position:absolute;right:-120px;top:50%;transform:translateY(-50%);width:420px;opacity:.55;pointer-events:none}
+  .traces path{fill:none;stroke:var(--line);stroke-width:2}
+  .traces .sig{stroke:var(--accent);stroke-width:2;stroke-dasharray:14 400;animation:sig 4.5s linear infinite}
+  .traces .sig.b{stroke:var(--accent-2);animation-delay:1.6s}
+  .traces circle{fill:var(--bg);stroke:#cfc9bd;stroke-width:2}
+  @keyframes sig{from{stroke-dashoffset:414}to{stroke-dashoffset:0}}
+  @media(max-width:900px){.traces{opacity:.25;right:-200px}}
+  .file{display:inline-flex;gap:10px;align-items:center;font-size:13px;color:var(--soft);border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px;width:max-content}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .hero h1{font-family:'Newsreader',serif;font-weight:300;font-size:clamp(46px,8.5vw,92px);line-height:1.04;letter-spacing:-.02em;margin:34px 0 26px}
+  .hero h1 i{color:var(--accent)}
+  .codeline{font-size:clamp(15px,2.2vw,19px);color:var(--soft)}
+  .codeline .k{color:var(--accent)}
+  .codeline .v{color:var(--accent-2)}
+  .cur{display:inline-block;width:9px;height:1.1em;background:var(--accent);vertical-align:-3px;animation:b 1s steps(1) infinite}
+  @keyframes b{50%{opacity:0}}
+
+  .tag{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  h2{font-family:'Newsreader',serif;font-weight:300;font-size:clamp(30px,5vw,46px);line-height:1.15;margin:12px 0 44px}
+  .lead{color:var(--soft);font-size:17px;margin:-24px 0 40px;max-width:560px}
+
+  /* CIRCUITO */
+  .board{background:#1d2a28;border-radius:18px;padding:36px 28px 28px;color:#cfe0dc;position:relative;overflow:hidden}
+  .board::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:18px 18px}
+  .board svg{width:100%;height:auto;display:block;position:relative}
+  .board .wire{fill:none;stroke:#7fa59e;stroke-width:2}
+  .board .flow{fill:none;stroke:var(--led);stroke-width:2.4;stroke-dasharray:10 22;animation:flow 1.4s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-32}}
+  .board text{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:#9fbfb8}
+  .board .big{font-size:13px;fill:#f3e6cf}
+  .led{fill:var(--led);filter:drop-shadow(0 0 6px var(--led));animation:glow 2.4s ease-in-out infinite}
+  .led:nth-of-type(2){animation-delay:.4s}.led:nth-of-type(3){animation-delay:.8s}
+  @keyframes glow{50%{opacity:.65}}
+  .board .cap{position:relative;margin-top:18px;font-size:15.5px;color:#cfe0dc}
+  .board .cap b{color:#f3e6cf;font-weight:400}
+
+  /* CONSTANTES */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .const{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 24px;transition:.35s}
+  .const:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .const code{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--soft);display:block;margin-bottom:14px}
+  .const code b{color:var(--accent);font-weight:400}
+  .const code em{font-style:normal;color:var(--accent-2)}
+  .const h3{font-family:'Newsreader',serif;font-weight:400;font-size:22px;line-height:1.25;margin-bottom:8px}
+  .const p{color:var(--soft);font-size:15px}
+
+  /* ACTUALIZACIÓN */
+  .update{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px}
+  .update .row{display:flex;justify-content:space-between;font-size:13px;color:var(--soft);gap:12px;flex-wrap:wrap}
+  .update .row b{color:var(--ink);font-weight:400}
+  .bar{height:8px;border-radius:99px;background:var(--line);margin:16px 0 22px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 3s cubic-bezier(.2,.8,.2,1)}
+  .update.in .bar i{width:86%}
+  .update ul{list-style:none;font-size:14px}
+  .update li{padding:6px 0;color:var(--soft)}
+  .update li span{color:var(--accent);margin-right:10px}
+  .update .note{margin-top:22px;padding-top:20px;border-top:1px dashed var(--line);font-family:'Newsreader',serif;font-size:20px;line-height:1.6}
+
+  /* MERGE */
+  .merge{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px 28px}
+  .merge svg{width:100%;height:auto;display:block}
+  .merge .path{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900;transition:stroke-dashoffset 2.6s ease}
+  .merge.in .path{stroke-dashoffset:0}
+  .merge .p1{stroke:var(--accent)}
+  .merge .p2{stroke:var(--accent-2);transition-delay:.3s}
+  .merge circle{fill:var(--card);stroke-width:2}
+  .merge text{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:var(--soft)}
+  .merge .cap{margin-top:22px;font-size:16px;color:var(--soft)}
+  .merge .cap strong{color:var(--ink);font-weight:400}
+
+  /* CARTA */
+  .letter{font-family:'Newsreader',serif;font-weight:300;font-size:clamp(20px,2.5vw,23px);line-height:1.85}
+  .letter p+p{margin-top:24px}
+  .letter mark{background:linear-gradient(transparent 62%,rgba(201,138,60,.28) 62%);color:inherit}
+  .sign{margin-top:40px;font-family:'Inter',sans-serif;font-size:15px;color:var(--soft)}
+  .sign span{color:var(--ink)}
+
+  /* FINAL */
+  section.end{text-align:center;padding-bottom:150px}
+  .end .big{font-family:'Newsreader',serif;font-weight:300;font-size:clamp(36px,6.5vw,64px);line-height:1.12}
+  .end .big i{color:var(--accent)}
+  .status{margin-top:38px;display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--soft);border:1px solid var(--line);background:var(--card);border-radius:999px;padding:10px 20px}
+  .status .live{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:ping 2s infinite}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(47,107,102,.5)}70%,100%{box-shadow:0 0 0 10px rgba(47,107,102,0)}}
+  .uptime{font-variant-numeric:tabular-nums;color:var(--ink)}
+
+  .r{opacity:0;transform:translateY(18px);transition:1s ease}
+  .r.in{opacity:1;transform:none}
+  footer{text-align:center;font-size:12px;color:#a3a39c;padding-bottom:40px}
+</style>
+</head>
+<body>
+
+<section class="hero wrap">
+  <svg class="traces" viewBox="0 0 420 420" aria-hidden="true">
+    <path d="M0 120 H140 L180 160 H300 L340 120 H420"/>
+    <path d="M0 220 H90 L130 260 H260 L300 220 H420"/>
+    <path d="M0 320 H200 L240 280 H420"/>
+    <path class="sig" d="M0 120 H140 L180 160 H300 L340 120 H420"/>
+    <path class="sig b" d="M0 220 H90 L130 260 H260 L300 220 H420"/>
+    <circle cx="180" cy="160" r="6"/><circle cx="300" cy="160" r="6"/>
+    <circle cx="130" cy="260" r="6"/><circle cx="260" cy="260" r="6"/>
+    <circle cx="240" cy="280" r="6"/>
+  </svg>
+  <div class="file mono r"><span class="dot"></span>apá.ino</div>
+  <h1 class="r">Hay cosas que<br><i>nunca cambian.</i></h1>
+  <div class="codeline mono r"><span class="k">const</span> apá = <span class="v" id="t"></span><span class="cur"></span></div>
+</section>
+
+<section class="wrap">
+  <div class="tag mono r">// el circuito de la familia</div>
+  <h2 class="r">Tú eres la fuente<br>que nos mantiene encendidos.</h2>
+  <p class="lead r">A ti te gusta la electrónica, así que te lo explico en tu idioma.</p>
+  <div class="board r">
+    <svg viewBox="0 0 640 200">
+      <!-- batería -->
+      <line x1="70" y1="70" x2="70" y2="130" stroke="#f3e6cf" stroke-width="3"/>
+      <line x1="86" y1="84" x2="86" y2="116" stroke="#f3e6cf" stroke-width="3"/>
+      <text class="big" x="38" y="160">apá</text>
+      <text x="20" y="180">fuente: amor de padre</text>
+      <!-- cables -->
+      <path class="wire" d="M70 70 V30 H600 V170 H86 V116"/>
+      <path class="flow" d="M70 70 V30 H600 V170 H86 V116"/>
+      <!-- LEDs -->
+      <g transform="translate(300,30)"><polygon points="-12,-12 -12,12 10,0" fill="none" stroke="#7fa59e" stroke-width="2"/><line x1="10" y1="-12" x2="10" y2="12" stroke="#7fa59e" stroke-width="2"/></g>
+      <g transform="translate(430,30)"><polygon points="-12,-12 -12,12 10,0" fill="none" stroke="#7fa59e" stroke-width="2"/><line x1="10" y1="-12" x2="10" y2="12" stroke="#7fa59e" stroke-width="2"/></g>
+      <g>
+        <circle class="led" cx="300" cy="30" r="5"/>
+        <circle class="led" cx="430" cy="30" r="5"/>
+        <circle class="led" cx="600" cy="100" r="5"/>
+      </g>
+      <text x="268" y="66">tus hijos</text>
+      <text x="398" y="66">tu familia</text>
+      <text x="470" y="104">nuestro hogar</text>
+      <text x="300" y="194">corriente constante · sin cortes</text>
+    </svg>
+    <p class="cap r">Lo darías todo por tus hijos. Tu amor de padre es el más grande que conozco, y <b>es lo que mantiene todo encendido</b>.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag mono r">// constantes</div>
+  <h2 class="r">Lo que eres para mí,<br>sin importar el día.</h2>
+  <div class="grid">
+    <div class="const r">
+      <code><b>const</b> amorDePadre = <em>Infinity</em>;</code>
+      <h3>El amor más grande</h3>
+      <p>No conozco un amor de padre más grande que el tuyo. Se nota en cómo nos miras y en cómo nos cuidas.</p>
+    </div>
+    <div class="const r">
+      <code><b>const</b> hijos = <em>prioridad</em>;</code>
+      <h3>Lo darías todo por nosotros</h3>
+      <p>Tus hijos siempre van primero. Sé que no hay nada que no harías por vernos bien.</p>
+    </div>
+    <div class="const r">
+      <code><b>const</b> presencia = <em>siempre</em>;</code>
+      <h3>Siempre has estado conmigo</h3>
+      <p>En lo bueno y en lo difícil. Nunca tuve que preguntarme si estarías ahí.</p>
+    </div>
+    <div class="const r">
+      <code><b>const</b> apoyo = <em>incondicional</em>;</code>
+      <h3>Me apoyas y me quieres sin condiciones</h3>
+      <p>No por lo que logro, sino por quien soy. Incluso cuando dudo, tú ya estás creyendo en mí.</p>
+    </div>
+    <div class="const r">
+      <code><b>const</b> consejo = <em>a tiempo</em>;</code>
+      <h3>Me aconsejas y me das la palabra</h3>
+      <p>Me escuchas, me tomas en serio y me dices la verdad, aunque a veces no quiera oírla.</p>
+    </div>
+    <div class="const r">
+      <code><b>const</b> ética = <em>tu ejemplo</em>;</code>
+      <h3>Sembraste la ética en mí</h3>
+      <p>Me enseñaste a hacer lo correcto aunque nadie esté mirando. Eso lo llevo conmigo a todas partes.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag mono r">// siempre mejorando</div>
+  <h2 class="r">Te veo esforzarte<br>por ser mejor.</h2>
+  <div class="update r">
+    <div class="row mono"><span><b>apá</b> · actualización en curso</span><span>no se detiene</span></div>
+    <div class="bar"><i></i></div>
+    <ul class="mono">
+      <li><span>+</span>más abrazos</li>
+      <li><span>+</span>más palabras de cariño</li>
+      <li><span>+</span>más tiempo juntos</li>
+    </ul>
+    <p class="note">Sé que a veces te cuesta demostrarlo, y te entiendo. Por eso valoro tanto que lo intentes: estás dispuesto a ser mejor por tu familia, y eso dice todo de ti.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag mono r">// aunque discutamos</div>
+  <h2 class="r">Podemos pensar distinto.<br>Igual seguimos juntos.</h2>
+  <div class="merge r">
+    <svg viewBox="0 0 640 170">
+      <path class="path p1" d="M20 85 H600"/>
+      <path class="path p2" d="M150 85 C210 85 220 30 290 30 H360 C430 30 440 85 500 85"/>
+      <circle cx="20" cy="85" r="7" stroke="#2f6b66"/>
+      <circle cx="150" cy="85" r="7" stroke="#2f6b66"/>
+      <circle cx="320" cy="30" r="7" stroke="#c98a3c"/>
+      <circle cx="500" cy="85" r="7" stroke="#2f6b66"/>
+      <circle cx="600" cy="85" r="7" stroke="#2f6b66"/>
+      <text x="20" y="120">nosotros</text>
+      <text x="125" y="120">discusión</text>
+      <text x="270" y="62">cada uno en lo suyo</text>
+      <text x="460" y="120">merge ✓</text>
+      <text x="568" y="120">siempre</text>
+    </svg>
+    <p class="cap">Hemos peleado y seguramente lo volveremos a hacer. Pero cada vez, <strong>tú sigues ahí</strong>. Ninguna discusión ha sido más fuerte que lo que somos.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag mono r">// para ti</div>
+  <div class="letter">
+    <p class="r">Apá, quiero darte las gracias por algo que no siempre se ve, pero que yo siento todos los días: <mark>que estás</mark>.</p>
+    <p class="r">Sé que mamá es quien más se ha sacrificado por nosotros, y tú has sido el apoyo y el amor que sostiene todo. Estás cuando las cosas salen bien y cuando salen mal, incluso después de una discusión, cuando los dos estamos molestos y aun así encuentras la manera de volver.</p>
+    <p class="r">Sé que darías todo por tus hijos. Gracias por tu amor, por tu apoyo incondicional, por tus consejos, por escucharme y darme la palabra. Y gracias por enseñarme a ser una persona correcta: <mark>lo que tengo de ético, lo aprendí de ti.</mark></p>
+    <p class="r">Sé que a veces te cuesta, y te entiendo. Te veo intentarlo, y eso para mí vale muchísimo. Quizá por eso a mí también me gusta construir cosas: los circuitos, el código… algo de eso viene de ti.</p>
+    <p class="r">Eres mi lugar seguro. Te quiero, hoy y siempre.</p>
+    <div class="sign r">Con todo mi cariño,<br><span>tu hijo</span></div>
+  </div>
+</section>
+
+<section class="wrap end">
+  <div class="big r">Gracias por todo,<br><i>apá.</i></div>
+  <div class="status mono r"><span class="live"></span>conectado desde el primer día · <span class="uptime" id="up">∞</span></div>
+</section>
+
+<footer class="mono">para apá, con cariño</footer>
+
+<script>
+  const words = ['siempre;','amor de padre;','incondicional;','mi ejemplo;','siempre;'];
+  const el = document.getElementById('t');
+  let w = 0, c = 0, del = false;
+  (function loop(){
+    const word = words[w];
+    el.textContent = word.slice(0, c);
+    if(!del && c < word.length){ c++; return setTimeout(loop, 85); }
+    if(!del){ if(w === words.length-1) return; del = true; return setTimeout(loop, 1300); }
+    if(c > 0){ c--; return setTimeout(loop, 40); }
+    del = false; w++; setTimeout(loop, 250);
+  })();
+
+  const io = new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }),{threshold:.15});
+  document.querySelectorAll('.r').forEach(x=>io.observe(x));
+
+  const up = document.getElementById('up');
+  let s = 0;
+  setInterval(()=>{
+    s++;
+    const h = String(Math.floor(s/3600)).padStart(2,'0');
+    const m = String(Math.floor(s/60)%60).padStart(2,'0');
+    const ss = String(s%60).padStart(2,'0');
+    up.textContent = '∞ + ' + h + ':' + m + ':' + ss;
+  },1000);
+</script>
+</body>
+</html>
