@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para papá</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=JetBrains+Mono:wght@300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1013;
+    --panel:#15181d;
+    --line:#23272e;
+    --text:#e9e6df;
+    --muted:#8a8f98;
+    --warm:#f0b45a;
+    --warm-soft:rgba(240,180,90,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    font-weight:300;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    opacity:.25;
+    mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);
+  }
+  .glow{
+    position:fixed;top:-20vh;left:50%;transform:translateX(-50%);
+    width:80vw;height:60vh;pointer-events:none;
+    background:radial-gradient(ellipse,rgba(240,180,90,.10),transparent 65%);
+  }
+  .mono{font-family:'JetBrains Mono',monospace}
+  .wrap{max-width:760px;margin:0 auto;padding:0 28px;position:relative}
+  section{padding:120px 0}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+  .prompt{font-size:14px;color:var(--muted);min-height:1.7em}
+  .prompt .c{color:var(--warm)}
+  .cursor{display:inline-block;width:8px;height:16px;background:var(--warm);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  h1{
+    font-family:'Fraunces',serif;font-weight:300;
+    font-size:clamp(48px,9vw,96px);line-height:1.05;letter-spacing:-.02em;
+    margin-top:28px;opacity:0;transform:translateY(12px);transition:1.2s ease;
+  }
+  h1 em{font-style:normal;color:var(--warm)}
+  .hero p.sub{color:var(--muted);margin-top:24px;max-width:480px;opacity:0;transition:1.2s ease .4s}
+  .show h1,.show p.sub{opacity:1;transform:none}
+  .scroll{margin-top:72px;font-size:12px;color:var(--muted);letter-spacing:.2em;opacity:0;transition:1s ease 1s}
+  .show .scroll{opacity:.7}
+
+  /* PULSO */
+  .pulse{padding:40px 0}
+  .pulse svg{width:100%;height:80px;display:block}
+  .pulse path{fill:none;stroke:var(--warm);stroke-width:1.5;stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 4s ease-in-out infinite}
+  @keyframes draw{0%{stroke-dashoffset:1400}60%{stroke-dashoffset:0}100%{stroke-dashoffset:-1400}}
+  .pulse .label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px}
+
+  /* LABELS */
+  .tag{font-size:12px;color:var(--warm);letter-spacing:.18em;text-transform:uppercase}
+  h2{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(30px,5vw,44px);line-height:1.2;margin:14px 0 48px}
+
+  /* LOG */
+  .log{border-left:1px solid var(--line);padding-left:28px}
+  .entry{position:relative;padding:0 0 44px}
+  .entry::before{
+    content:"";position:absolute;left:-33px;top:9px;width:9px;height:9px;border-radius:50%;
+    background:var(--bg);border:1px solid var(--warm);
+  }
+  .entry .meta{font-size:12px;color:var(--muted)}
+  .entry .meta b{color:var(--warm);font-weight:400}
+  .entry h3{font-family:'Fraunces',serif;font-weight:500;font-size:20px;margin:6px 0 6px}
+  .entry p{color:#c4c1ba;font-size:15.5px}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .stat{background:var(--panel);padding:32px 22px}
+  .stat .n{font-family:'JetBrains Mono',monospace;font-size:34px;color:var(--warm);font-weight:300}
+  .stat .d{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
+  @media(max-width:620px){.stats{grid-template-columns:1fr}}
+
+  /* CARTA */
+  .letter{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(19px,2.4vw,22px);line-height:1.85}
+  .letter p+p{margin-top:24px}
+  .letter .sign{margin-top:40px;font-family:'Inter',sans-serif;font-size:15px;color:var(--muted)}
+  .letter .sign span{color:var(--text)}
+
+  /* CIERRE */
+  .end{text-align:center;padding-bottom:160px}
+  .end .code{font-size:14px;color:var(--muted);display:inline-block;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin-bottom:56px}
+  .end .code .k{color:var(--warm)}
+  .end .code .s{color:#b9d4a8}
+  .end h2{margin-bottom:36px}
+  button{
+    font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.06em;
+    background:transparent;color:var(--text);
+    border:1px solid var(--warm);border-radius:999px;padding:14px 30px;cursor:pointer;
+    transition:.3s;
+  }
+  button:hover{background:var(--warm-soft)}
+  .hug{margin-top:28px;font-size:14px;color:var(--warm);min-height:1.7em;opacity:0;transition:.8s}
+  .hug.on{opacity:1}
+  .heart{position:fixed;pointer-events:none;color:var(--warm);font-size:18px;animation:rise 2.6s ease-out forwards}
+  @keyframes rise{to{transform:translateY(-60vh) scale(.6);opacity:0}}
+
+  /* Reveal */
+  .r{opacity:0;transform:translateY(18px);transition:1s ease}
+  .r.in{opacity:1;transform:none}
+  footer{text-align:center;font-size:12px;color:#5a5f67;padding:0 0 40px}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<section class="hero wrap" id="hero">
+  <div class="prompt mono"><span class="c">~/familia</span> $ <span id="typed"></span><span class="cursor"></span></div>
+  <h1>Gracias,<br><em>papá.</em></h1>
+  <p class="sub">Por cada madrugada, cada esfuerzo callado y cada sueño que pusiste en pausa para que yo pudiera tener los míos.</p>
+  <div class="scroll mono">↓ DESLIZA</div>
+</section>
+
+<div class="wrap pulse r">
+  <svg viewBox="0 0 700 80" preserveAspectRatio="none">
+    <path d="M0 40 H220 L240 40 L252 12 L266 70 L280 24 L292 40 H420 L440 40 L452 12 L466 70 L480 24 L492 40 H700"/>
+  </svg>
+  <div class="label mono"><span>latido.compartido</span><span>estado: siempre contigo</span></div>
+</div>
+
+<section class="wrap">
+  <div class="tag mono r">// historial</div>
+  <h2 class="r">Lo que hiciste, aunque nunca lo dijeras.</h2>
+  <div class="log">
+    <div class="entry r">
+      <div class="meta mono"><b>05:00</b> · cada día</div>
+      <h3>Te levantaste antes que el sol</h3>
+      <p>Mientras yo dormía, tú ya estabas saliendo. Nunca te escuché quejarte del frío ni del cansancio.</p>
+    </div>
+    <div class="entry r">
+      <div class="meta mono"><b>horas extra</b> · sin contar</div>
+      <h3>Trabajaste más de lo que te tocaba</h3>
+      <p>Para que en casa no faltara nada. Para que mis útiles, mis estudios y mis oportunidades llegaran a tiempo.</p>
+    </div>
+    <div class="entry r">
+      <div class="meta mono"><b>renuncias</b> · en silencio</div>
+      <h3>Dejaste cosas para ti en segundo plano</h3>
+      <p>Los gustos que no te diste, los descansos que no tomaste. Siempre elegiste primero a tu familia.</p>
+    </div>
+    <div class="entry r">
+      <div class="meta mono"><b>lecciones</b> · para toda la vida</div>
+      <h3>Me enseñaste con el ejemplo</h3>
+      <p>Que la palabra se cumple, que el trabajo honesto dignifica y que el amor también se demuestra con hechos.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag mono r">// métricas</div>
+  <h2 class="r">Hay cosas que no caben en un número.</h2>
+  <div class="stats r">
+    <div class="stat"><div class="n" data-to="365">0</div><div class="d">días al año pensando primero en nosotros</div></div>
+    <div class="stat"><div class="n" data-to="100">0</div><div class="d">por ciento de esfuerzo, incluso en los días difíciles</div></div>
+    <div class="stat"><div class="n">∞</div><div class="d">amor que nunca necesitó explicarse</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="tag mono r">// mensaje</div>
+  <div class="letter">
+    <p class="r">Papá, a veces no encuentro las palabras, así que hoy quise construirlas.</p>
+    <p class="r">Todo lo que he logrado tiene tus huellas: en las manos cansadas que nunca dejaron de trabajar, en los consejos que me diste cuando no quería escucharlos y en esa forma tuya de estar presente, incluso cuando el trabajo te tenía lejos.</p>
+    <p class="r">Hoy entiendo que cada sacrificio fue una inversión en mí. Y quiero que sepas que no fue en vano. Voy a seguir esforzándome para que te sientas orgulloso, como yo me siento orgulloso de ti.</p>
+    <p class="r">Gracias por ser mi primer ejemplo, mi refugio y mi mayor fortaleza. Te quiero muchísimo.</p>
+    <div class="sign r">Con todo mi amor,<br><span>tu hijo</span></div>
+  </div>
+</section>
+
+<section class="wrap end">
+  <div class="code mono r">
+    <span class="k">const</span> yo = <span class="k">new</span> Persona({<br>
+    &nbsp;&nbsp;valores: papá.ejemplo,<br>
+    &nbsp;&nbsp;fuerza: papá.sacrificio,<br>
+    &nbsp;&nbsp;origen: <span class="s">"tu amor"</span><br>
+    });
+  </div>
+  <h2 class="r">Todo lo que soy<br>empezó contigo.</h2>
+  <button id="btn" class="r">enviar abrazo</button>
+  <div class="hug mono" id="hug">abrazo entregado ✓ · para siempre</div>
+</section>
+
+<footer class="mono">hecho con cariño, para papá</footer>
+
+<script>
+  // Escritura tipo terminal
+  const cmd = 'abrir recuerdos --con-gratitud';
+  const t = document.getElementById('typed');
+  let i = 0;
+  (function type(){
+    if(i <= cmd.length){ t.textContent = cmd.slice(0, i++); setTimeout(type, 55); }
+    else setTimeout(()=>document.getElementById('hero').classList.add('show'), 300);
+  })();
+
+  // Aparición al hacer scroll + contadores
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('[data-to]').forEach(n=>{
+        const to = +n.dataset.to, start = performance.now();
+        (function step(now){
+          const p = Math.min((now-start)/1600, 1);
+          n.textContent = Math.round(to*(1-Math.pow(1-p,3)));
+          if(p<1) requestAnimationFrame(step);
+        })(start);
+      });
+      io.unobserve(e.target);
+    });
+  },{threshold:.2});
+  document.querySelectorAll('.r').forEach(el=>io.observe(el));
+
+  // Abrazo
+  document.getElementById('btn').addEventListener('click', e=>{
+    const r = e.target.getBoundingClientRect();
+    for(let k=0;k<14;k++){
+      const h = document.createElement('span');
+      h.className='heart'; h.textContent='♥';
+      h.style.left = (r.left + r.width/2 + (Math.random()-.5)*160)+'px';
+      h.style.top = (r.top + (Math.random()-.5)*20)+'px';
+      h.style.animationDelay = (Math.random()*.6)+'s';
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), 3400);
+    }
+    document.getElementById('hug').classList.add('on');
+  });
+</script>
+</body>
+</html>
